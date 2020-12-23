@@ -1,66 +1,40 @@
-package cn.hzyoupu.common.entity;
+package org.jfinger.cloud.entity;
+
+import lombok.Data;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 import java.io.Serializable;
 
 /**
- * 位置坐标
+ * @Description 位置坐标
+ * @Author finger
+ * @Date 2020/12/23 0023
+ * @Version 1.0
  */
+@Data
+@RequiredArgsConstructor
 public class Location implements Serializable {
 
     private static final long serialVersionUID = 8661772677678316280L;
 
     //坐标系
-    private String coordType = "bd09ll";
+    private String coordType = "wgs84";
 
     //经度
+    @NonNull
     private Double longitude;
 
     //纬度
+    @NonNull
     private Double latitude;
 
     //海拔
-    private Double altitude;
+    private Double altitude = 0.0;
 
     //误差
-    private Float accuracy;
+    private Float accuracy = 0.0f;
 
-    public String getCoordType() {
-        return coordType;
-    }
-
-    public void setCoordType(String coordType) {
-        this.coordType = coordType;
-    }
-
-    public Double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
-    }
-
-    public Double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
-
-    public Double getAltitude() {
-        return altitude;
-    }
-
-    public void setAltitude(Double altitude) {
-        this.altitude = altitude;
-    }
-
-    public Float getAccuracy() {
-        return accuracy;
-    }
-
-    public void setAccuracy(Float accuracy) {
-        this.accuracy = accuracy;
-    }
+    //地址
+    private String address;
 }
