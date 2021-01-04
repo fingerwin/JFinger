@@ -10,6 +10,38 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>provider-api</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>provider-api-uac</module>
+    </modules>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.jfinger</groupId>
+            <artifactId>common</artifactId>
+            <version>${org.jfinger.version}</version>
+        </dependency>
 
+        <!-- spring-cloud begin -->
+        <!-- nacos -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+        <!-- feign -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+        <!-- sentinel 熔断限流 -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+        </dependency>
+        <!-- spring-cloud end -->
+    </dependencies>
 </project>

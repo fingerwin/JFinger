@@ -9,7 +9,13 @@ import lombok.Getter;
  * @Version 1.0
  */
 public enum OperateType {
-    JOB(2, "定时任务");
+    NONE(0,"无"),
+    QUERY(1, "查询"),
+    INSERT(2, "添加"),
+    MODIFY(3, "修改"),
+    DELETE(4, "删除"),
+    IMPORT(5, "导入"),
+    EXPORT(6, "导出");
 
     @Getter
     private Integer code;

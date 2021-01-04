@@ -38,4 +38,7 @@ public class CommonConstant {
      */
     public static final Integer RSP_BUSINESS_BEGIN = 1000;
 
+    /**字典翻译文本后缀*/
+    public static final String DICT_TEXT_SUFFIX = "_dictText";
+
 }
