@@ -1,0 +1,76 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  redis:
+    host: 10.80.6.249
+    password: 'hzcx@96871'
+    port: 6379
+    database: 6
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowCredentials: true
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+      routes:
+        #Jeecg接口
+        - id: jfinger-uac
+          uri: lb://jfinger-uac
+          predicates:
+          - Path=/sys/**,/online/**,/api/**,/big/screen/**,/bigscreen/**,/webSocketApi/**,/message/**,/actuator/**,/ysLogin/**,/oss/**
+          #限流配置
+          filters:
+          - name: RequestRateLimiter
+            args:
+              key-resolver: '#{@ipKeyResolver}'
+              redis-rate-limiter.replenishRate: 10
+              redis-rate-limiter.burstCapacity: 20
+          #降级配置
+          - name: Hystrix
+            args:
+              name: default
+              fallbackUri: 'forward:/fallback'
+        #WebSocket接口
+        - id: jeecg-cloud-websocket
+          uri: lb:ws://jeecg-cloud-system-biz
+          predicates:
+            - Path=/websocket/**
+        #微服务A
+        - id: provider-a
+          uri: lb://provider-a-biz
+          predicates:
+            - Header=sysId,10001
+          filters:
+            - name: RequestRateLimiter
+              args:
+                key-resolver: '#{@ipKeyResolver}'
+                redis-rate-limiter.replenishRate: 10
+                redis-rate-limiter.burstCapacity: 20
+            - name: Hystrix
+              args:
+                name: fallbackcmd
+                fallback-uri: forward:/fallback
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+# hystrix 信号量隔离，3秒后自动超时
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+          thread:
+            timeoutInMilliseconds: 30000
+  shareSecurityContext: true
+logging:
+  level:
+    com.alibaba.nacos.client.*: WARN
