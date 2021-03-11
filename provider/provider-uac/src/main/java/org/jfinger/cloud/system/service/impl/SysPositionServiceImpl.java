@@ -1,9 +1,9 @@
-package org.jeecg.modules.system.service.impl;
+package org.jfinger.cloud.system.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.jeecg.modules.system.entity.SysPosition;
-import org.jeecg.modules.system.mapper.SysPositionMapper;
-import org.jeecg.modules.system.service.ISysPositionService;
+import org.jfinger.cloud.entity.data.SysPosition;
+import org.jfinger.cloud.system.mapper.SysPositionMapper;
+import org.jfinger.cloud.system.service.ISysPositionService;
 import org.springframework.stereotype.Service;
 
 /**

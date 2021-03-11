@@ -1,14 +1,14 @@
-package org.jeecg.modules.system.service;
+package org.jfinger.cloud.system.service;
+
+import com.baomidou.mybatisplus.extension.service.IService;
+import org.jfinger.cloud.entity.data.SysDict;
+import org.jfinger.cloud.entity.data.SysDictItem;
+import org.jfinger.cloud.entity.model.DictModel;
+import org.jfinger.cloud.entity.model.DictQuery;
+import org.jfinger.cloud.entity.model.TreeSelectModel;
 
 import java.util.List;
 import java.util.Map;
-
-import org.jeecg.common.system.vo.DictModel;
-import org.jeecg.common.system.vo.DictQuery;
-import org.jeecg.modules.system.entity.SysDict;
-import com.baomidou.mybatisplus.extension.service.IService;
-import org.jeecg.modules.system.entity.SysDictItem;
-import org.jeecg.modules.system.model.TreeSelectModel;
 
 /**
  * <p>
@@ -50,19 +50,19 @@ public interface ISysDictService extends IService<SysDict> {
      * 添加一对多
      */
     public Integer saveMain(SysDict sysDict, List<SysDictItem> sysDictItemList);
-    
+
     /**
 	 * 查询所有部门 作为字典信息 id -->value,departName -->text
 	 * @return
 	 */
 	public List<DictModel> queryAllDepartBackDictModel();
-	
+
 	/**
 	 * 查询所有用户  作为字典信息 username -->value,realname -->text
 	 * @return
 	 */
 	public List<DictModel> queryAllUserBackDictModel();
-	
+
 	/**
 	 * 通过关键字查询字典表
 	 * @param table
@@ -72,8 +72,8 @@ public interface ISysDictService extends IService<SysDict> {
 	 * @return
 	 */
 	@Deprecated
-	public List<DictModel> queryTableDictItems(String table, String text, String code,String keyword);
-	
+	public List<DictModel> queryTableDictItems(String table, String text, String code, String keyword);
+
 	/**
 	  * 根据表名、显示字段名、存储字段名 查询树
 	 * @param table
@@ -85,7 +85,7 @@ public interface ISysDictService extends IService<SysDict> {
 	 * @return
 	 */
 	@Deprecated
-	List<TreeSelectModel> queryTreeList(Map<String, String> query,String table, String text, String code, String pidField,String pid,String hasChildField);
+	List<TreeSelectModel> queryTreeList(Map<String, String> query, String table, String text, String code, String pidField, String pid, String hasChildField);
 
 	/**
 	 * 真实删除
@@ -98,7 +98,7 @@ public interface ISysDictService extends IService<SysDict> {
 	 * @param delFlag
 	 * @param id
 	 */
-	public void updateDictDelFlag(int delFlag,String id);
+	public void updateDictDelFlag(int delFlag, String id);
 
 	/**
 	 * 查询被逻辑删除的数据
@@ -114,6 +114,6 @@ public interface ISysDictService extends IService<SysDict> {
 	 * @return
 	 */
 	@Deprecated
-	public List<DictModel> queryDictTablePageList(DictQuery query,int pageSize, int pageNo);
+	public List<DictModel> queryDictTablePageList(DictQuery query, int pageSize, int pageNo);
 
 }

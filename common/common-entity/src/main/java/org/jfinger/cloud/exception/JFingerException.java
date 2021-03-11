@@ -1,18 +1,18 @@
-package org.jeecg.common.exception;
+package org.jfinger.cloud.exception;
 
-public class JeecgBootException extends RuntimeException {
+public class JFingerException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
-	public JeecgBootException(String message){
+	public JFingerException(String message){
 		super(message);
 	}
-	
-	public JeecgBootException(Throwable cause)
+
+	public JFingerException(Throwable cause)
 	{
 		super(cause);
 	}
-	
-	public JeecgBootException(String message,Throwable cause)
+
+	public JFingerException(String message, Throwable cause)
 	{
 		super(message,cause);
 	}

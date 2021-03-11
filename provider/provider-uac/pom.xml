@@ -11,5 +11,13 @@
 
     <artifactId>provider-uac</artifactId>
 
+    <dependencies>
+        <!-- 用户权限管理系统——公共api -->
+        <dependency>
+            <groupId>org.jfinger</groupId>
+            <artifactId>common-config</artifactId>
+            <version>${org.jfinger.version}</version>
+        </dependency>
+    </dependencies>
 
 </project>

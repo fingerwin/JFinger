@@ -18,10 +18,14 @@
     <dependencies>
         <dependency>
             <groupId>org.jfinger</groupId>
-            <artifactId>common</artifactId>
+            <artifactId>common-entity</artifactId>
             <version>${org.jfinger.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.jfinger</groupId>
+            <artifactId>common-utils</artifactId>
+            <version>${org.jfinger.version}</version>
+        </dependency>
         <!-- spring-cloud begin -->
         <!-- nacos -->
         <dependency>

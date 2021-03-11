@@ -58,7 +58,7 @@ public class DictAspect {
     private void transDictText(Object result) {
         if (!(result instanceof Result))
             return;
-        Object data = ((Result) result).getData();
+        Object data = ((Result) result).getResult();
         if (data instanceof IPage) {
             //分页时的处理
             List<JSONObject> items = new ArrayList<>();
@@ -68,7 +68,7 @@ public class DictAspect {
             ((IPage) data).setRecords(items);
         } else {
             //非分页实体时处理
-            ((Result) result).setData(transEntity(data));
+            ((Result) result).setResult(transEntity(data));
         }
     }
 

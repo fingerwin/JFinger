@@ -1,4 +1,4 @@
-package org.jfinger.cloud.entity.bo;
+package org.jfinger.cloud.entity.data;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -74,7 +74,7 @@ public class SysPosition implements Serializable {
      * 状态
      */
     @Dict(dicCode = "status")
-    @TableLogic(delval = "-1")
+    @TableLogic(value = "1", delval = "-1")
     @ApiModelProperty(value = "状态")
     private Integer status;
 

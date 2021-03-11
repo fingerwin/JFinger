@@ -1,8 +1,8 @@
-package org.jeecg.modules.api.factory;
+package org.jfinger.cloud.api.factory;
 
 import feign.hystrix.FallbackFactory;
-import org.jeecg.modules.api.SysUserRemoteApi;
-import org.jeecg.modules.api.fallback.SysUserRemoteApiFallbackImpl;
+import org.jfinger.cloud.api.SysUserApi;
+import org.jfinger.cloud.api.fallback.SysUserApiFallback;
 import org.springframework.stereotype.Component;
 
 /**
@@ -10,12 +10,12 @@ import org.springframework.stereotype.Component;
  * @date 2020/05/22
  */
 @Component
-public class SysUserRemoteApiFallbackFactory implements FallbackFactory<SysUserRemoteApi> {
+public class SysUserApiFallbackFactory implements FallbackFactory<SysUserApi> {
 
-	@Override
-	public SysUserRemoteApiFallbackImpl create(Throwable throwable) {
-		SysUserRemoteApiFallbackImpl remoteUserServiceFallback = new SysUserRemoteApiFallbackImpl();
-		remoteUserServiceFallback.setCause(throwable);
-		return remoteUserServiceFallback;
-	}
+    @Override
+    public SysUserApiFallback create(Throwable throwable) {
+        SysUserApiFallback remoteUserServiceFallback = new SysUserApiFallback();
+        remoteUserServiceFallback.setCause(throwable);
+        return remoteUserServiceFallback;
+    }
 }

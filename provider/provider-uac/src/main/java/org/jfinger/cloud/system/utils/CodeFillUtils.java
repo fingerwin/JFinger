@@ -1,4 +1,4 @@
-package org.jfinger.cloud.utils;
+package org.jfinger.cloud.system.utils;
 
 import io.netty.util.internal.StringUtil;
 

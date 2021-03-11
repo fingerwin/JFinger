@@ -1,6 +1,6 @@
-package org.jeecg.config;
+package org.jfinger.cloud.config;
 
-import org.jeecg.filter.GlobalAccessTokenFilter;
+import org.jfinger.cloud.constant.CommonConstant;
 import org.springframework.cloud.gateway.filter.ratelimit.KeyResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,7 +29,7 @@ public class RateLimiterConfiguration {
 	@Bean
 	public KeyResolver userKeyResolver() {
 		//使用这种方式限流，请求Header中必须携带X-Access-Token参数
-		return exchange -> Mono.just(exchange.getRequest().getHeaders().getFirst(GlobalAccessTokenFilter.X_ACCESS_TOKEN));
+		return exchange -> Mono.just(exchange.getRequest().getHeaders().getFirst(CommonConstant.X_ACCESS_TOKEN));
 	}
 
 	/**

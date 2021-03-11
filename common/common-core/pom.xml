@@ -19,6 +19,11 @@
         </dependency>
         <dependency>
             <groupId>org.jfinger</groupId>
+            <artifactId>common-utils</artifactId>
+            <version>${org.jfinger.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jfinger</groupId>
             <artifactId>provider-api-uac</artifactId>
             <version>${org.jfinger.version}</version>
         </dependency>

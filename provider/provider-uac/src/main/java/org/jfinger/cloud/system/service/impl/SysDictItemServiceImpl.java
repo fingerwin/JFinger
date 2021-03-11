@@ -1,10 +1,9 @@
-package org.jeecg.modules.system.service.impl;
+package org.jfinger.cloud.system.service.impl;
 
-import org.jeecg.modules.system.entity.SysDictItem;
-import org.jeecg.modules.system.mapper.SysDictItemMapper;
-import org.jeecg.modules.system.service.ISysDictItemService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.jfinger.cloud.entity.data.SysDictItem;
+import org.jfinger.cloud.system.mapper.SysDictItemMapper;
+import org.jfinger.cloud.system.service.ISysDictItemService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,11 +19,8 @@ import java.util.List;
 @Service
 public class SysDictItemServiceImpl extends ServiceImpl<SysDictItemMapper, SysDictItem> implements ISysDictItemService {
 
-    @Autowired
-    private SysDictItemMapper sysDictItemMapper;
-
     @Override
     public List<SysDictItem> selectItemsByMainId(String mainId) {
-        return sysDictItemMapper.selectItemsByMainId(mainId);
+        return baseMapper.selectItemsByMainId(mainId);
     }
 }

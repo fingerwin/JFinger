@@ -1,9 +1,11 @@
-package org.jfinger.cloud.entity.uac;
+package org.jfinger.cloud.entity.vo;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -20,12 +22,14 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
+@NoArgsConstructor
+@AllArgsConstructor
 public class LoginUser {
 
 	/**
 	 * 登录人id
 	 */
-	private String id;
+	private Integer id;
 
 	/**
 	 * 登录人账号
@@ -50,7 +54,7 @@ public class LoginUser {
      /**
       * 当前登录部门id
       */
-    private String orgId;
+    private Integer orgId;
 
 	/**
 	 * 当前登录部门code

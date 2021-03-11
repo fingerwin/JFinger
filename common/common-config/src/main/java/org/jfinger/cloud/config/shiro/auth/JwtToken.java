@@ -1,4 +1,4 @@
-package org.jfinger.cloud.shiro.auth;
+package org.jfinger.cloud.config.shiro.auth;
 
 import org.apache.shiro.authc.AuthenticationToken;
 

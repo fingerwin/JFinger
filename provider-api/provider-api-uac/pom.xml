@@ -12,20 +12,5 @@
     <artifactId>provider-api-uac</artifactId>
 
     <dependencies>
-        <dependency>
-            <groupId>org.jfinger</groupId>
-            <artifactId>common-core</artifactId>
-            <version>${org.jfinger.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jfinger</groupId>
-            <artifactId>common-entity</artifactId>
-            <version>${org.jfinger.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jfinger</groupId>
-            <artifactId>common-utils</artifactId>
-            <version>${org.jfinger.version}</version>
-        </dependency>
     </dependencies>
 </project>

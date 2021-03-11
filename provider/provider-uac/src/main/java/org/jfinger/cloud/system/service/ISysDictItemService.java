@@ -1,7 +1,7 @@
-package org.jeecg.modules.system.service;
+package org.jfinger.cloud.system.service;
 
-import org.jeecg.modules.system.entity.SysDictItem;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.jfinger.cloud.entity.data.SysDictItem;
 
 import java.util.List;
 

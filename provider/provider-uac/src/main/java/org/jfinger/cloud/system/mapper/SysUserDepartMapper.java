@@ -1,14 +1,14 @@
-package org.jeecg.modules.system.mapper;
+package org.jfinger.cloud.system.mapper;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import io.lettuce.core.dynamic.annotation.Param;
+import org.apache.ibatis.annotations.Mapper;
+import org.jfinger.cloud.entity.data.SysUserDepart;
 
 import java.util.List;
 
-import org.jeecg.modules.system.entity.SysUserDepart;
-
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-
-import io.lettuce.core.dynamic.annotation.Param;
-
+@Mapper
 public interface SysUserDepartMapper extends BaseMapper<SysUserDepart>{
-	
-	List<SysUserDepart> getUserDepartByUid(@Param("userId") String userId);
+
+	List<SysUserDepart> getDepartByUserId(@Param("userId") String userId);
 }

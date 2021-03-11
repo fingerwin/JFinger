@@ -1,4 +1,4 @@
-package org.jfinger.cloud.entity.bo;
+package org.jfinger.cloud.entity.data;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;

@@ -1,11 +1,11 @@
-package org.jfinger.cloud.shiro.auth.aop;
+package org.jfinger.cloud.config.shiro.auth.aop;
 
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.jfinger.cloud.constant.CommonConstant;
-import org.jfinger.cloud.shiro.auth.JwtToken;
+import org.jfinger.cloud.config.shiro.auth.JwtToken;
 import org.springframework.http.HttpStatus;
 
 import javax.servlet.ServletRequest;

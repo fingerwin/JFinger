@@ -1,4 +1,4 @@
-package org.jfinger.cloud.utils;
+package org.jfinger.cloud.utils.network;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -37,13 +37,16 @@ public class IpUtils {
             if (StringUtils.isEmpty(ip) || "unknown".equalsIgnoreCase(ip)) {
                 ip = request.getHeader("HTTP_X_FORWARDED_FOR");
             }
+            if (ip != null && ip.length() != 0) {
+                ip = ip.split(",")[0];
+            }
             if (StringUtils.isEmpty(ip) || "unknown".equalsIgnoreCase(ip)) {
                 ip = request.getRemoteAddr();
             }
         } catch (Exception e) {
             log.error("IPUtils ERROR ", e);
         }
-        return ip;
+        return ip.equals("0:0:0:0:0:0:0:1") ? "127.0.0.1" : ip;
     }
 
 }

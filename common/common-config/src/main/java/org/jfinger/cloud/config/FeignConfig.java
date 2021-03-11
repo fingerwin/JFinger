@@ -1,10 +1,10 @@
-package org.jeecg.cloud.config;
+package org.jfinger.cloud.config;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import feign.codec.Encoder;
 import feign.form.FormEncoder;
-import org.jeecg.common.constant.CommonConstant;
+import org.jfinger.cloud.constant.CommonConstant;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 public class FeignConfig implements RequestInterceptor {
     @Override
     public void apply(RequestTemplate requestTemplate) {
-        ServletRequestAttributes attributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (attributes != null) {
             HttpServletRequest request = attributes.getRequest();
             //添加token
@@ -45,5 +45,4 @@ public class FeignConfig implements RequestInterceptor {
     Encoder formEncoder() {
         return new FormEncoder(new SpringEncoder(this.messageConverters));
     }
-
 }

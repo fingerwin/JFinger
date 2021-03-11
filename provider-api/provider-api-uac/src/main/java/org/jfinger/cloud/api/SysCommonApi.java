@@ -3,10 +3,9 @@ package org.jfinger.cloud.api;
 import org.jfinger.cloud.api.factory.SysCommonApiFallbackFactory;
 import org.jfinger.cloud.constant.ServiceConstant;
 import org.jfinger.cloud.entity.Result;
-import org.jfinger.cloud.entity.SysLog;
-import org.jfinger.cloud.entity.uac.LoginUser;
+import org.jfinger.cloud.entity.data.SysLog;
+import org.jfinger.cloud.entity.vo.LoginUser;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -15,8 +14,7 @@ import org.springframework.web.bind.annotation.*;
  * @Date 2020/12/23 0023
  * @Version 1.0
  */
-@Component
-@FeignClient(contextId = "sysBaseRemoteApi", value = ServiceConstant.PROVIDER_UAC, fallbackFactory = SysCommonApiFallbackFactory.class)
+@FeignClient(contextId = "SysCommonApi", value = ServiceConstant.PROVIDER_UAC, fallbackFactory = SysCommonApiFallbackFactory.class)
 public interface SysCommonApi {
 
     /**
@@ -29,6 +27,7 @@ public interface SysCommonApi {
 
     /**
      * 通过用户名查询登录用户信息
+     *
      * @param userName
      * @return
      */

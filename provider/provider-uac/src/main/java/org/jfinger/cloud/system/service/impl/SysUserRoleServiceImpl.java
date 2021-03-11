@@ -1,20 +1,10 @@
-package org.jeecg.modules.system.service.impl;
-
-import java.util.IdentityHashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.jeecg.modules.system.entity.SysRole;
-import org.jeecg.modules.system.entity.SysUser;
-import org.jeecg.modules.system.entity.SysUserRole;
-import org.jeecg.modules.system.mapper.SysUserRoleMapper;
-import org.jeecg.modules.system.service.ISysRoleService;
-import org.jeecg.modules.system.service.ISysUserRoleService;
-import org.jeecg.modules.system.service.ISysUserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+package org.jfinger.cloud.system.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.jfinger.cloud.entity.data.SysUserRole;
+import org.jfinger.cloud.system.mapper.SysUserRoleMapper;
+import org.jfinger.cloud.system.service.ISysUserRoleService;
+import org.springframework.stereotype.Service;
 
 /**
  * <p>

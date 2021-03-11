@@ -59,6 +59,7 @@
         <aliyun.oss.version>3.6.0</aliyun.oss.version>
         <swagger2.version>2.9.2</swagger2.version>
         <org.jfinger.version>1.0-SNAPSHOT</org.jfinger.version>
+        <shiro.version>1.7.0</shiro.version>
     </properties>
 
     <dependencies>

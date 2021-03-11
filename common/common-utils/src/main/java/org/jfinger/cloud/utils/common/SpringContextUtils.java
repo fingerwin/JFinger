@@ -1,4 +1,4 @@
-package org.jfinger.cloud.utils;
+package org.jfinger.cloud.utils.common;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

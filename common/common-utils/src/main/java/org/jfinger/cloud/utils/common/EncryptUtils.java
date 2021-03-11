@@ -1,13 +1,52 @@
-package org.jfinger.cloud.utils;
+package org.jfinger.cloud.utils.common;
 
 import org.springframework.util.DigestUtils;
 
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.spec.PBEParameterSpec;
 import java.io.UnsupportedEncodingException;
+import java.security.Key;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
 public class EncryptUtils {
+
+    //加密算法
+    public static final String ALGORITHM = "PBEWithMD5AndDES";
+
+    //迭代次数
+    private static final int ITERATION_COUNT = 1000;
+
+    /**
+     * 根据PBE密码生成一把密钥
+     *
+     * @param password 生成密钥时所使用的密码
+     * @return Key PBE算法密钥
+     */
+    private static Key getPBEKey(String password) {
+        // 实例化使用的算法
+        SecretKeyFactory keyFactory;
+        SecretKey secretKey = null;
+        try {
+            keyFactory = SecretKeyFactory.getInstance(ALGORITHM);
+            // 设置PBE密钥参数
+            PBEKeySpec keySpec = new PBEKeySpec(password.toCharArray());
+            // 生成密钥
+            secretKey = keyFactory.generateSecret(keySpec);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return secretKey;
+    }
+
+    private static byte charToByte(char c) {
+        return (byte) "0123456789ABCDEF".indexOf(c);
+    }
 
     /**
      * 字节数组转成十六进制串
@@ -27,6 +66,27 @@ public class EncryptUtils {
             stringBuffer.append(temp);
         }
         return stringBuffer.toString();
+    }
+
+    /**
+     * 将十六进制字符串转换为字节数组
+     *
+     * @param hexString 十六进制字符串
+     * @return
+     */
+    public static byte[] hex2Byte(String hexString) {
+        if (hexString == null || hexString.equals("")) {
+            return null;
+        }
+        hexString = hexString.toUpperCase();
+        int length = hexString.length() / 2;
+        char[] hexChars = hexString.toCharArray();
+        byte[] d = new byte[length];
+        for (int i = 0; i < length; i++) {
+            int pos = i * 2;
+            d[i] = (byte) (charToByte(hexChars[pos]) << 4 | charToByte(hexChars[pos + 1]));
+        }
+        return d;
     }
 
     /**
@@ -95,10 +155,20 @@ public class EncryptUtils {
     }
 
     /**
+     * 创建指定数量的随机字符串，字母于数字混合
+     *
+     * @param length 字符串长度
+     * @return
+     */
+    public static String createRandom(int length) {
+        return createRandom(false, length);
+    }
+
+    /**
      * 创建指定数量的随机字符串
      *
      * @param numberFlag 是否是数字
-     * @param length
+     * @param length     字符串长度
      * @return
      */
     public static String createRandom(boolean numberFlag, int length) {
@@ -158,4 +228,49 @@ public class EncryptUtils {
         return s;
     }
 
+    /**
+     * 加密明文字符串
+     *
+     * @param plaintext 待加密的明文字符串
+     * @param password  生成密钥时所使用的密码
+     * @param salt      盐值
+     * @return 加密后的密文字符串
+     * @throws Exception
+     */
+    public static String encrypt(String plaintext, String password, String salt) {
+        Key key = getPBEKey(password);
+        byte[] encipheredData = null;
+        PBEParameterSpec parameterSpec = new PBEParameterSpec(salt.getBytes(), ITERATION_COUNT);
+        try {
+            Cipher cipher = Cipher.getInstance(ALGORITHM);
+            cipher.init(Cipher.ENCRYPT_MODE, key, parameterSpec);
+            encipheredData = cipher.doFinal(plaintext.getBytes("utf-8"));
+        } catch (Exception e) {
+        }
+        return byte2Hex(encipheredData);
+    }
+
+
+    /**
+     * 解密密文字符串
+     *
+     * @param ciphertext 待解密的密文字符串
+     * @param password   生成密钥时所使用的密码(如需解密,该参数需要与加密时使用的一致)
+     * @param salt       盐值(如需解密,该参数需要与加密时使用的一致)
+     * @return 解密后的明文字符串
+     * @throws Exception
+     */
+    public static String decrypt(String ciphertext, String password, String salt) {
+        Key key = getPBEKey(password);
+        byte[] passDec = null;
+        PBEParameterSpec parameterSpec = new PBEParameterSpec(salt.getBytes(), ITERATION_COUNT);
+        try {
+            Cipher cipher = Cipher.getInstance(ALGORITHM);
+            cipher.init(Cipher.DECRYPT_MODE, key, parameterSpec);
+            passDec = cipher.doFinal(hex2Byte(ciphertext));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new String(passDec);
+    }
 }

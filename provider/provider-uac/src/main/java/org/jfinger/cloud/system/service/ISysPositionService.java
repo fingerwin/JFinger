@@ -1,7 +1,7 @@
-package org.jeecg.modules.system.service;
+package org.jfinger.cloud.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.jeecg.modules.system.entity.SysPosition;
+import org.jfinger.cloud.entity.data.SysPosition;
 
 /**
  * @Description: 职务表

@@ -1,0 +1,5 @@
+org\jfinger\cloud\config\FeignConfig.class
+org\jfinger\cloud\config\Swagger2Config.class
+org\jfinger\cloud\config\FastJson2JsonRedisSerializer.class
+org\jfinger\cloud\config\RedisConfig.class
+org\jfinger\cloud\config\WebMvcConfiguration.class

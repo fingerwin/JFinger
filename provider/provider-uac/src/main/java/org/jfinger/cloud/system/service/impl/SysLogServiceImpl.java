@@ -3,8 +3,8 @@ package org.jfinger.cloud.system.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
-import org.jfinger.cloud.data.SysLog;
-import org.jfinger.cloud.entity.uac.LoginUser;
+import org.jfinger.cloud.entity.data.SysLog;
+import org.jfinger.cloud.entity.vo.LoginUser;
 import org.jfinger.cloud.enumerate.LogType;
 import org.jfinger.cloud.enumerate.OperateType;
 import org.jfinger.cloud.system.mapper.SysLogMapper;
@@ -44,6 +44,8 @@ public class SysLogServiceImpl extends ServiceImpl<SysLogMapper, SysLog> impleme
 
     @Override
     public void addLog(String logContent, LogType logType, OperateType operateType, LoginUser user) {
+        if(operateType == null)
+            operateType = OperateType.NONE;
         SysLog sysLog = new SysLog();
         //注解上的描述,操作日志内容
         sysLog.setLogContent(logContent);
@@ -81,26 +83,28 @@ public class SysLogServiceImpl extends ServiceImpl<SysLogMapper, SysLog> impleme
 
     @Override
     public void addLog(String logContent, LogType logType, OperateType operateType) {
+        if(operateType == null)
+            operateType = OperateType.NONE;
         addLog(logContent, logType, operateType, null);
     }
 
     @Override
     public void removeAll() {
-
+        sysLogMapper.removeAll();
     }
 
     @Override
     public Long countTotalVisit() {
-        return null;
+        return sysLogMapper.countTotalVisit(null, null);
     }
 
     @Override
     public Long countTotalVisit(Date dayStart, Date dayEnd) {
-        return null;
+        return sysLogMapper.countTotalVisit(dayStart, dayEnd);
     }
 
     @Override
     public List<Map<String, Object>> countVisitAndIp(Date dayStart, Date dayEnd) {
-        return null;
+        return sysLogMapper.countVisitAndIp(dayStart, dayEnd);
     }
 }

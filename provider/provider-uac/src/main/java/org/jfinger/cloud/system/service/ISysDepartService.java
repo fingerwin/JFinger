@@ -1,20 +1,21 @@
-package org.jeecg.modules.system.service;
+package org.jfinger.cloud.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.jeecg.modules.system.entity.SysDepart;
-import org.jeecg.modules.system.model.DepartIdModel;
-import org.jeecg.modules.system.model.SysDepartTreeModel;
+import org.jfinger.cloud.entity.data.SysDepart;
+import org.jfinger.cloud.entity.model.DepartIdModel;
+import org.jfinger.cloud.entity.model.SysDepartTreeModel;
+
 import java.util.List;
 
 /**
  * <p>
  * 部门表 服务实现类
  * <p>
- * 
+ *
  * @Author:Steve
  * @Since：   2019-01-22
  */
-public interface ISysDepartService extends IService<SysDepart>{
+public interface ISysDepartService extends IService<SysDepart> {
 
     /**
      * 查询我的部门信息,并分节点进行显示
@@ -38,42 +39,42 @@ public interface ISysDepartService extends IService<SysDepart>{
      * 保存部门数据
      * @param sysDepart
      */
-    void saveDepartData(SysDepart sysDepart,String username);
+    void saveDepartData(SysDepart sysDepart, String username);
 
     /**
      * 更新depart数据
      * @param sysDepart
      * @return
      */
-    Boolean updateDepartDataById(SysDepart sysDepart,String username);
-    
+    Boolean updateDepartDataById(SysDepart sysDepart, String username);
+
     /**
      * 删除depart数据
      * @param id
      * @return
      */
 	/* boolean removeDepartDataById(String id); */
-    
+
     /**
      * 根据关键字搜索相关的部门数据
      * @param keyWord
      * @return
      */
-    List<SysDepartTreeModel> searhBy(String keyWord,String myDeptSearch,String departIds);
-    
+    List<SysDepartTreeModel> searhBy(String keyWord, String myDeptSearch, String departIds);
+
     /**
      * 根据部门id删除并删除其可能存在的子级部门
      * @param id
      * @return
      */
     boolean delete(String id);
-    
+
     /**
      * 查询SysDepart集合
      * @param userId
      * @return
      */
-	public List<SysDepart> queryUserDeparts(String userId);
+	public List<SysDepart> queryUserDeparts(Integer userId);
 
     /**
      * 根据用户名查询部门
@@ -85,7 +86,7 @@ public interface ISysDepartService extends IService<SysDepart>{
 
 	 /**
      * 根据部门id批量删除并删除其可能存在的子级部门
-     * @param id
+     * @param ids
      * @return
      */
 	void deleteBatchWithChildren(List<String> ids);
@@ -102,6 +103,7 @@ public interface ISysDepartService extends IService<SysDepart>{
      * @return
      */
     List<String> getMySubDepIdsByDepId(String departIds);
+
     /**
      * 根据关键字获取部门信息（通讯录）
      * @return

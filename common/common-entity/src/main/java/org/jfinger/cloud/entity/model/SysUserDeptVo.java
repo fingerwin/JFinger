@@ -1,4 +1,4 @@
-package org.jeecg.modules.system.vo;
+package org.jfinger.cloud.entity.model;
 
 import lombok.Data;
 
@@ -9,7 +9,7 @@ import lombok.Data;
  * @Version 1.0
  */
 @Data
-public class SysUserDepVo {
-    private String userId;
+public class SysUserDeptVo {
+    private Integer userId;
     private String departName;
 }

@@ -1,10 +1,7 @@
-package org.jeecg.modules.system.service;
-
-import java.util.Map;
-
-import org.jeecg.modules.system.entity.SysUserRole;
+package org.jfinger.cloud.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.jfinger.cloud.entity.data.SysUserRole;
 
 /**
  * <p>

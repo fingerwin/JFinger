@@ -1,4 +1,4 @@
-package org.jfinger.cloud.entity.bo;
+package org.jfinger.cloud.entity.data;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.*;
@@ -7,8 +7,10 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import org.jfinger.cloud.annotation.Dict;
+import org.jfinger.cloud.constant.CommonConstant;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -25,6 +27,7 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
+@NoArgsConstructor
 @TableName("sys_permission")
 @ApiModel(value = "sys_permission表对象", description = "权限表")
 public class SysPermission implements Serializable {
@@ -147,7 +150,7 @@ public class SysPermission implements Serializable {
      * 状态
      */
     @Dict(dicCode = "status")
-    @TableLogic(delval = "-1")
+    @TableLogic(value = "1", delval = "-1")
     @ApiModelProperty(value = "状态")
     private Integer status;
 
@@ -180,4 +183,28 @@ public class SysPermission implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "更新时间")
     private Date updateTime;
+
+    /**
+     * 返回首页权限数据
+     *
+     * @return
+     */
+    public static SysPermission index() {
+        SysPermission sysPermission = new SysPermission();
+        sysPermission.id = 1;
+        sysPermission.name = "首页";
+        sysPermission.component = "dashboard/Analysis";
+        sysPermission.componentName = "dashboard-analysis";
+        sysPermission.url = "/dashboard/analysis";
+        sysPermission.icon = "home";
+        sysPermission.menuType = 0;
+        sysPermission.sort = 0;
+        sysPermission.status = CommonConstant.STATUS_NORMAL;
+        sysPermission.alwaysShow = false;
+        sysPermission.route = true;
+        sysPermission.keepAlive = true;
+        sysPermission.leaf = true;
+        sysPermission.hidden = false;
+        return sysPermission;
+    }
 }

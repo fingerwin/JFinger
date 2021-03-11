@@ -1,10 +1,10 @@
 package org.jfinger.cloud.api;
 
 import io.swagger.annotations.ApiOperation;
-import org.jeecg.modules.api.factory.SysDepartRemoteApiFallbackFactory;
+import org.jfinger.cloud.api.factory.SysDepartApiFallbackFactory;
 import org.jfinger.cloud.constant.ServiceConstant;
 import org.jfinger.cloud.entity.Result;
-import org.jfinger.cloud.entity.bo.SysDepart;
+import org.jfinger.cloud.entity.data.SysDepart;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +18,8 @@ import java.util.List;
  * @date: 2020年8月21日16:17:48
  */
 @Component
-@FeignClient(contextId = "SysDepartRemoteApi", value = ServiceConstant.PROVIDER_UAC, fallbackFactory = SysDepartRemoteApiFallbackFactory.class)
-public interface SysDepartRemoteApi {
+@FeignClient(contextId = "SysDepartRemoteApi", value = ServiceConstant.PROVIDER_UAC, fallbackFactory = SysDepartApiFallbackFactory.class)
+public interface SysDepartApi {
 
     @GetMapping("/sys/sysDepart/{id}")
     Result<SysDepart> getById(@PathVariable("id") String id);

@@ -2,7 +2,7 @@
  * Copyright (C) 2012 finger.
  * This file write by finger in 2013-1-17,mail:luweifeng_2000@126.com
  */
-package org.jfinger.cloud.utils;
+package org.jfinger.cloud.utils.common;
 
 import java.text.DecimalFormat;
 
@@ -13,6 +13,28 @@ import java.text.DecimalFormat;
  * @version V1.0
  */
 public class FormatUtils {
+
+    /**
+     * 将驼峰命名转化成下划线
+     *
+     * @param para
+     * @return
+     */
+    public static String camelToUnderline(String para) {
+        if (para.length() < 3) {
+            return para.toLowerCase();
+        }
+        StringBuilder sb = new StringBuilder(para);
+        int temp = 0;//定位
+        //从第三个字符开始 避免命名不规范
+        for (int i = 2; i < para.length(); i++) {
+            if (Character.isUpperCase(para.charAt(i))) {
+                sb.insert(i + temp, "_");
+                temp += 1;
+            }
+        }
+        return sb.toString().toLowerCase();
+    }
 
     /**
      * 格式化浮点数字

@@ -1,4 +1,4 @@
-package org.jfinger.cloud.entity.bo;
+package org.jfinger.cloud.entity.data;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

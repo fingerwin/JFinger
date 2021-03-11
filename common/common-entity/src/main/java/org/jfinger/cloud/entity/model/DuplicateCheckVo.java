@@ -1,9 +1,10 @@
-package org.jeecg.modules.system.model;
+package org.jfinger.cloud.entity.model;
 
-import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
+import java.io.Serializable;
 
 /**
  * @Title: DuplicateCheckVo
@@ -22,19 +23,19 @@ public class DuplicateCheckVo implements Serializable {
 	 */
 	@ApiModelProperty(value="表名",name="tableName",example="sys_log")
 	private String tableName;
-	
+
 	/**
 	 * 字段名
 	 */
 	@ApiModelProperty(value="字段名",name="fieldName",example="id")
 	private String fieldName;
-	
+
 	/**
 	 * 字段值
 	 */
 	@ApiModelProperty(value="字段值",name="fieldVal",example="1000")
 	private String fieldVal;
-	
+
 	/**
 	 * 数据ID
 	*/

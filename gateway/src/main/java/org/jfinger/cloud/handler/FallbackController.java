@@ -1,4 +1,4 @@
-package org.jfinger.cloud.config;
+package org.jfinger.cloud.handler;
 
 import com.netflix.hystrix.exception.HystrixTimeoutException;
 import lombok.extern.slf4j.Slf4j;

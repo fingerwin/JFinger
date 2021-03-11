@@ -1,7 +1,6 @@
 package org.jfinger.cloud.aop;
 
 import com.alibaba.fastjson.JSONObject;
-import org.apache.shiro.SecurityUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -10,10 +9,9 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.jfinger.cloud.annotation.JLog;
 import org.jfinger.cloud.api.SysCommonApi;
-import org.jfinger.cloud.entity.SysLog;
-import org.jfinger.cloud.entity.uac.LoginUser;
-import org.jfinger.cloud.utils.IpUtils;
-import org.jfinger.cloud.utils.SpringContextUtils;
+import org.jfinger.cloud.entity.data.SysLog;
+import org.jfinger.cloud.utils.common.SpringContextUtils;
+import org.jfinger.cloud.utils.network.IpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
 import org.springframework.stereotype.Component;
@@ -66,14 +64,14 @@ public class SysLogAspect {
         if (jLog != null) {
             //注解上的描述,操作日志内容
             sysLog.setLogContent(jLog.value());
-            sysLog.setLogType(jLog.logType().getCode());
-            sysLog.setOperateType(jLog.operateType().getCode());
+            sysLog.setLogType(jLog.logType());
+            sysLog.setOperateType(jLog.operateType());
         }
 
         //请求的方法名
         String className = joinPoint.getTarget().getClass().getName();
         String methodName = signature.getName();
-        sysLog.setMethod(className + "." + methodName + "()");
+        sysLog.setFunctionName(className + "." + methodName + "()");
 
         //获取request
         HttpServletRequest request = SpringContextUtils.getHttpServletRequest();
@@ -84,12 +82,12 @@ public class SysLogAspect {
         sysLog.setIp(IpUtils.getIpAddr(request));
 
         //获取登录用户信息
-        LoginUser sysUser = (LoginUser) SecurityUtils.getSubject().getPrincipal();
-        if (sysUser != null) {
-            sysLog.setUserId(sysUser.getUserName());
-            sysLog.setUserName(sysUser.getRealName());
-
-        }
+//        LoginUser sysUser = (LoginUser) SecurityUtils.getSubject().getPrincipal();
+//        if (sysUser != null) {
+//            sysLog.setUserId(sysUser.getUserName());
+//            sysLog.setUserName(sysUser.getRealName());
+//
+//        }
         //耗时
         sysLog.setCostTime(time);
         sysLog.setCreateTime(new Date());

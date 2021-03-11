@@ -1,4 +1,4 @@
-package org.jfinger.cloud.model.uac;
+package org.jfinger.cloud.entity.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

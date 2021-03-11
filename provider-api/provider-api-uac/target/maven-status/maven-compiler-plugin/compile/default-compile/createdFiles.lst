@@ -1,0 +1,3 @@
+org\jfinger\cloud\api\fallback\SysCommonApiFallback.class
+org\jfinger\cloud\api\factory\SysCommonApiFallbackFactory.class
+org\jfinger\cloud\api\SysCommonApi.class

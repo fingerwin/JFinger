@@ -1,10 +1,8 @@
-package org.jeecg.modules.api.factory;
+package org.jfinger.cloud.api.factory;
 
 import feign.hystrix.FallbackFactory;
-import org.jeecg.modules.api.SysBaseRemoteApi;
-import org.jeecg.modules.api.SysDepartRemoteApi;
-import org.jeecg.modules.api.fallback.SysBaseRemoteApiFallback;
-import org.jeecg.modules.api.fallback.SysDepartRemoteApiFallback;
+import org.jfinger.cloud.api.SysDepartApi;
+import org.jfinger.cloud.api.fallback.SysDepartApiFallback;
 import org.springframework.stereotype.Component;
 
 /**
@@ -12,11 +10,11 @@ import org.springframework.stereotype.Component;
  * @date 2020/05/22
  */
 @Component
-public class SysDepartRemoteApiFallbackFactory implements FallbackFactory<SysDepartRemoteApi> {
+public class SysDepartApiFallbackFactory implements FallbackFactory<SysDepartApi> {
 
     @Override
-    public SysDepartRemoteApi create(Throwable throwable) {
-        SysDepartRemoteApiFallback fallback = new SysDepartRemoteApiFallback();
+    public SysDepartApi create(Throwable throwable) {
+        SysDepartApiFallback fallback = new SysDepartApiFallback();
         fallback.setCause(throwable);
         return fallback;
     }

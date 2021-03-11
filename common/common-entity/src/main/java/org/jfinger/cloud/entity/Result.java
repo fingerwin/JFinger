@@ -1,5 +1,6 @@
 package org.jfinger.cloud.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.jfinger.cloud.enumerate.HttpStatus;
@@ -30,7 +31,7 @@ public class Result<T> implements Serializable {
     /**
      * 业务数据
      */
-    private T data;
+    private T result;
 
     /**
      * 成功
@@ -41,7 +42,7 @@ public class Result<T> implements Serializable {
     public static <T> Result<T> success() {
         Result<T> response = new Result<T>();
         response.setCode(HttpStatus.RSP_OK.getCode());
-        response.setMessage(HttpStatus.RSP_OK.getMessage());
+        response.setMessage(HttpStatus.RSP_OK.getContent());
         return response;
     }
 
@@ -69,8 +70,8 @@ public class Result<T> implements Serializable {
     public static <T> Result<T> success(T result) {
         Result<T> response = new Result<T>();
         response.setCode(HttpStatus.RSP_OK.getCode());
-        response.setMessage(HttpStatus.RSP_OK.getMessage());
-        response.setData(result);
+        response.setMessage(HttpStatus.RSP_OK.getContent());
+        response.setResult(result);
         return response;
     }
 
@@ -86,7 +87,7 @@ public class Result<T> implements Serializable {
         Result<T> response = new Result<T>();
         response.setCode(HttpStatus.RSP_OK.getCode());
         response.setMessage(msg);
-        response.setData(result);
+        response.setResult(result);
         return response;
     }
 
@@ -100,7 +101,7 @@ public class Result<T> implements Serializable {
     public static <T> Result<T> fail(HttpStatus status) {
         Result<T> response = new Result<T>();
         response.setCode(status.getCode());
-        response.setMessage(status.getMessage());
+        response.setMessage(status.getContent());
         return response;
     }
 
@@ -131,5 +132,14 @@ public class Result<T> implements Serializable {
         response.setCode(code);
         response.setMessage(message);
         return response;
+    }
+
+    /**
+     * 是否成功
+     *
+     * @return
+     */
+    public boolean isSuccess() {
+        return HttpStatus.RSP_OK.getCode().equals(code);
     }
 }

@@ -1,4 +1,4 @@
-package org.jeecg.common.system.util;
+package org.jfinger.cloud.utils.system;
 
 import cn.hutool.crypto.SecureUtil;
 import com.auth0.jwt.JWT;
@@ -6,22 +6,22 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.google.api.client.util.SecurityUtils;
 import com.google.common.base.Joiner;
+import lombok.extern.slf4j.Slf4j;
+import org.jfinger.cloud.constant.CacheConstant;
+import org.jfinger.cloud.constant.DataBaseConstant;
+import org.jfinger.cloud.entity.vo.LoginUser;
+import org.jfinger.cloud.entity.vo.SysUserCacheInfo;
+import org.jfinger.cloud.exception.JFingerException;
+import org.jfinger.cloud.utils.cache.RedisUtils;
+import org.jfinger.cloud.utils.common.SpringContextUtils;
+import org.springframework.util.StringUtils;
 
-import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 
-import lombok.extern.slf4j.Slf4j;
-import org.jeecg.common.constant.CacheConstant;
-import org.jeecg.common.constant.DataBaseConstant;
-import org.jeecg.common.exception.JeecgBootException;
-import org.jeecg.common.system.vo.LoginUser;
-import org.jeecg.common.system.vo.SysUserCacheInfo;
-import org.jeecg.common.util.RedisUtil;
-import org.jeecg.common.util.SpringContextUtils;
-import org.jeecg.common.util.oConvertUtils;
+import static org.jfinger.cloud.constant.CommonConstant.SYS_USER_INFO;
 
 /**
  * @Author Scott
@@ -29,9 +29,9 @@ import org.jeecg.common.util.oConvertUtils;
  * @Desc JWT工具类
  **/
 @Slf4j
-public class JwtUtil {
+public class JwtUtils {
 
-    // Token过期时间30分钟（用户登录过期时间是此时间的两倍，以token在reids缓存时间为准）
+    //Token过期时间30分钟（用户登录过期时间是此时间的两倍，以token在reids缓存时间为准）
     public static final long EXPIRE_TIME = 30 * 60 * 1000;
 
     /**
@@ -88,13 +88,13 @@ public class JwtUtil {
      *
      * @param request
      * @return
-     * @throws JeecgBootException
+     * @throws JFingerException
      */
-    public static String getUserNameByToken(HttpServletRequest request) throws JeecgBootException {
+    public static String getUserNameByToken(HttpServletRequest request) throws JFingerException {
         String accessToken = request.getHeader("X-Access-Token");
         String username = getUsername(accessToken);
-        if (oConvertUtils.isEmpty(username)) {
-            throw new JeecgBootException("未获取到用户");
+        if (StringUtils.isEmpty(username)) {
+            throw new JFingerException("未获取到用户");
         }
         return username;
     }
@@ -103,23 +103,23 @@ public class JwtUtil {
      * 根据request中的token获取用户信息
      *
      * @return
-     * @throws JeecgBootException
+     * @throws JFingerException
      */
-    public static LoginUser getLoginUser() throws JeecgBootException {
+    public static LoginUser getLoginUser() throws JFingerException {
         HttpServletRequest request = SpringContextUtils.getHttpServletRequest();
         if (request == null) {
             log.warn(" 非request方式访问！! ");
             return null;
         }
         String accessToken = request.getHeader("X-Access-Token");
-        if (oConvertUtils.isEmpty(accessToken)) {
+        if (StringUtils.isEmpty(accessToken)) {
             return null;
         }
         String username = getUsername(accessToken);
-        if (oConvertUtils.isEmpty(username)) {
-            throw new JeecgBootException("未获取到用户");
+        if (StringUtils.isEmpty(username)) {
+            throw new JFingerException("未获取到用户");
         }
-        RedisUtil redisUtil = SpringContextUtils.getApplicationContext().getBean(RedisUtil.class);
+        RedisUtils redisUtil = SpringContextUtils.getApplicationContext().getBean(RedisUtils.class);
         LoginUser sysUser = (LoginUser) redisUtil.get(CacheConstant.SYS_USERS_CACHE_JWT + ":" + username);
         return sysUser;
     }
@@ -141,7 +141,7 @@ public class JwtUtil {
         if (key.contains("#{")) {
             key = key.substring(2, key.indexOf("}"));
         }
-        if (oConvertUtils.isNotEmpty(key)) {
+        if (!StringUtils.isEmpty(key)) {
             HttpSession session = SpringContextUtils.getHttpServletRequest().getSession();
             returnValue = (String) session.getAttribute(key);
         }
@@ -159,15 +159,13 @@ public class JwtUtil {
      * @param user
      * @return
      */
-    //TODO 急待改造 sckjkdsjsfjdk
     public static String getUserSystemData(String key, SysUserCacheInfo user) {
         if (user == null) {
-            user = JeecgDataAutorUtils.loadUserInfo();
+            user = (SysUserCacheInfo) SpringContextUtils.getHttpServletRequest().getAttribute(SYS_USER_INFO);
         }
         //#{sys_user_code}%
         // 获取登录用户信息
-        LoginUser sysUser = JwtUtil.getLoginUser();
-
+        LoginUser sysUser = JwtUtils.getLoginUser();
         String moshi = "";
         if (key.indexOf("}") != -1) {
             moshi = key.substring(key.indexOf("}") + 1);
@@ -182,7 +180,7 @@ public class JwtUtil {
         //替换为系统登录用户帐号
         if (key.equals(DataBaseConstant.SYS_USER_CODE) || key.toLowerCase().equals(DataBaseConstant.SYS_USER_CODE_TABLE)) {
             if (user == null) {
-                returnValue = sysUser.getUsername();
+                returnValue = sysUser.getUserName();
             } else {
                 returnValue = user.getSysUserCode();
             }
@@ -190,7 +188,7 @@ public class JwtUtil {
         //替换为系统登录用户真实名字
         else if (key.equals(DataBaseConstant.SYS_USER_NAME) || key.toLowerCase().equals(DataBaseConstant.SYS_USER_NAME_TABLE)) {
             if (user == null) {
-                returnValue = sysUser.getRealname();
+                returnValue = sysUser.getRealName();
             } else {
                 returnValue = user.getSysUserName();
             }
@@ -220,18 +218,9 @@ public class JwtUtil {
         else if (key.equals(DataBaseConstant.SYS_TIME) || key.toLowerCase().equals(DataBaseConstant.SYS_TIME_TABLE)) {
             returnValue = user.getSysTime();
         }
-        //流程状态默认值（默认未发起）
-        else if (key.equals(DataBaseConstant.BPM_STATUS) || key.toLowerCase().equals(DataBaseConstant.BPM_STATUS_TABLE)) {
-            returnValue = "1";
-        }
         if (returnValue != null) {
             returnValue = returnValue + moshi;
         }
         return returnValue;
-    }
-
-    public static void main(String[] args) {
-        String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjUzMzY1MTMsInVzZXJuYW1lIjoiYWRtaW4ifQ.xjhud_tWCNYBOg_aRlMgOdlZoWFFKB_givNElHNw3X0";
-        System.out.println(JwtUtil.getUsername(token));
     }
 }

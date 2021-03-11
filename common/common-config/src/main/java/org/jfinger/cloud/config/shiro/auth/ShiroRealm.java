@@ -1,4 +1,4 @@
-package org.jfinger.cloud.shiro.auth;
+package org.jfinger.cloud.config.shiro.auth;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -94,7 +94,7 @@ public class ShiroRealm extends AuthorizingRealm {
             throw new AuthenticationException("token为空!");
         }
         // 校验token有效性
-        LoginUser loginUser = this.checkUserTokenIsEffect(token);
+        LoginUser loginUser = checkUserTokenIsEffect(token);
         return new SimpleAuthenticationInfo(loginUser, token, getName());
     }
 
@@ -112,14 +112,13 @@ public class ShiroRealm extends AuthorizingRealm {
 
         // 查询用户信息
         log.debug("———校验token是否有效————checkUserTokenIsEffect——————— " + token);
-        //采用缓存方式获取登录用户信息，提高并发性能（gateway）
-        //LoginUser loginUser = sysBaseRemoteApi.getUserByName(username).getResult();
+        //采用缓存方式获取登录用户信息，提高并发性能
         LoginUser loginUser = (LoginUser) redisUtil.get(CacheConstant.SYS_USERS_CACHE_JWT + ":" + token);
         if (loginUser == null) {
             throw new AuthenticationException("用户不存在!");
         }
         // 判断用户状态
-        if (loginUser.getStatus() != 1) {
+        if (loginUser.getStatus() == CommonConstant.STATUS_DISABLED) {
             throw new AuthenticationException("账号已被锁定,请联系管理员!");
         }
         // 校验token是否超时失效 & 或者账号密码是否错误

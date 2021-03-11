@@ -1,9 +1,9 @@
 package org.jfinger.cloud.api;
 
-import org.jeecg.modules.api.factory.SysUserRemoteApiFallbackFactory;
+import org.jfinger.cloud.api.factory.SysUserApiFallbackFactory;
 import org.jfinger.cloud.constant.ServiceConstant;
 import org.jfinger.cloud.entity.Result;
-import org.jfinger.cloud.entity.bo.SysPermission;
+import org.jfinger.cloud.entity.data.SysPermission;
 import org.jfinger.cloud.entity.vo.SysUserCacheInfo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.Set;
 
 @Component
-@FeignClient(contextId = "sysUserRemoteApi", value = ServiceConstant.PROVIDER_UAC, fallbackFactory = SysUserRemoteApiFallbackFactory.class)
-public interface SysUserRemoteApi {
+@FeignClient(contextId = "sysUserRemoteApi", value = ServiceConstant.PROVIDER_UAC, fallbackFactory = SysUserApiFallbackFactory.class)
+public interface SysUserApi {
     /**
      * 通过用户名获取用户角色集合
      *

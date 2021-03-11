@@ -1,6 +1,10 @@
 package org.jfinger.cloud.enumerate;
 
 import lombok.Getter;
+import org.springframework.lang.Nullable;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Description 操作类型
@@ -9,13 +13,15 @@ import lombok.Getter;
  * @Version 1.0
  */
 public enum OperateType {
-    NONE(0,"无"),
+    NONE(0, "无"),
     QUERY(1, "查询"),
     INSERT(2, "添加"),
     MODIFY(3, "修改"),
     DELETE(4, "删除"),
     IMPORT(5, "导入"),
     EXPORT(6, "导出");
+
+    private static final Map<Integer, OperateType> mappings = new HashMap(16);
 
     @Getter
     private Integer code;
@@ -41,5 +47,24 @@ public enum OperateType {
             }
         }
         return null;
+    }
+
+    @Nullable
+    public static OperateType resolve(@Nullable Integer code) {
+        return code != null ? mappings.get(code) : null;
+    }
+
+    public boolean matches(Integer code) {
+        return this == resolve(code);
+    }
+
+    static {
+        OperateType[] all = values();
+        int len = all.length;
+
+        for (int i = 0; i < len; ++i) {
+            OperateType type = all[i];
+            mappings.put(type.getCode(), type);
+        }
     }
 }

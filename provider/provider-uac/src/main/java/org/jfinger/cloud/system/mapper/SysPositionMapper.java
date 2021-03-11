@@ -1,7 +1,8 @@
-package org.jeecg.modules.system.mapper;
+package org.jfinger.cloud.system.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.jeecg.modules.system.entity.SysPosition;
+import org.apache.ibatis.annotations.Mapper;
+import org.jfinger.cloud.entity.data.SysPosition;
 
 /**
  * @Description: 职务表
@@ -9,6 +10,7 @@ import org.jeecg.modules.system.entity.SysPosition;
  * @Date: 2019-09-19
  * @Version: V1.0
  */
+@Mapper
 public interface SysPositionMapper extends BaseMapper<SysPosition> {
 
 }

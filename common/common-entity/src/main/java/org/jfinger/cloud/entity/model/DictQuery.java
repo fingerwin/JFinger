@@ -1,4 +1,4 @@
-package org.jeecg.common.system.vo;
+package org.jfinger.cloud.entity.model;
 
 import lombok.Data;
 
