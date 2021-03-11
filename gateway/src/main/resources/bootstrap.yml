@@ -1,0 +1,31 @@
+server:
+  port: 15812
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: jeecg-cloud-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 10.80.6.249:8848
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        file-extension: yml
+#正式环境
+#server:
+#  port: 8080
+#spring:
+#  main:
+#    allow-bean-definition-overriding: true
+#  application:
+#    name: gateway
+#  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: 172.31.52.205:80
+#        namespace: 5898088e-1d1b-4c76-8bd9-2302dd3a00e5
+#      config:
+#        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+#        file-extension: yml
+#        namespace: 5898088e-1d1b-4c76-8bd9-2302dd3a00e5

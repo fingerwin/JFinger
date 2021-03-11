@@ -87,7 +87,7 @@ public class LoginUser {
 	/**
 	 * 职务，关联职务表
 	 */
-	private String post;
+	private String pos;
 
 	/**
 	 * 工号

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jfinger.cloud.system.mapper.SysUserMapper">
+
+	<!-- 根据用户名查询 -->
+	<select id="getUserByName" resultType="org.jfinger.cloud.data.SysUser">
+		select * from  sys_user  where user_name = #{userName} and status >= 0
+	</select>
+
+	<!-- 根据部门Id查询 -->
+	<select id="getUsersByDeptId" resultType="org.jfinger.cloud.data.SysUser">
+		select * from sys_user where status >= 0 and id in (select user_id from sys_user_depart where dept_id = #{departId})
+		<if test="userName != null and userName != '' ">
+			and user_name = #{userName}
+		</if>
+	</select>
+
+	<!-- 根据角色Id查询 -->
+	<select id="getUsersByRoleId" resultType="org.jfinger.cloud.data.SysUser">
+		select * from sys_user where status >= 0 and id in (select user_id from sys_user_role where role_id = #{roleId})
+		<if test="userName != null and userName != '' ">
+			and user_name = #{userName}
+		</if>
+	</select>
+
+	<!-- 根据手机号查询 -->
+	<select id="getUserByPhone"  resultType="org.jfinger.cloud.data.SysUser">
+		select * from  sys_user  where phone = #{phone} and status >= 0
+	</select>
+
+	<!-- 根据邮箱查询用户信息 -->
+	<select id="getUserByEmail" resultType="org.jfinger.cloud.data.SysUser">
+	select * from  sys_user  where email = #{email} and status >= 0
+	</select>
+
+	<!-- 批量删除角色的与用户关系-->
+	<update id="deleteBathRoleUserRelation">
+		delete from sys_user_role
+		where role_id in
+		<foreach item="id" collection="roleIdArray" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+	<!-- 批量删除角色的与权限关系-->
+	<update id="deleteBathRolePermissionRelation">
+		delete from sys_role_permission
+		where role_id in
+		<foreach item="id" collection="roleIdArray" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+</mapper>
