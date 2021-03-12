@@ -39,6 +39,21 @@ public class CommonConstant {
     public static final Integer RSP_BUSINESS_BEGIN = 1000;
 
     /**
+     * 短信验证码
+     */
+    public static final String PREFIX_SMS_CODE = "prefix_sms_code_";
+
+    /**
+     * 短信登录
+     */
+    public static final String PREFIX_SMS_LOGIN = "prefix_sms_login_";
+
+    /**
+     * 短信注册
+     */
+    public static final String PREFIX_SMS_REGISTER = "prefix_sms_register_";
+
+    /**
      * 字典翻译文本后缀
      */
     public static final String DICT_TEXT_SUFFIX = "_dictText";

@@ -73,7 +73,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/thirdLogin/**", "anon"); //第三方登录
         filterChainDefinitionMap.put("/sys/getEncryptedString", "anon"); //获取加密串
         filterChainDefinitionMap.put("/sys/smsLogin", "anon");//短信验证码登录
-        filterChainDefinitionMap.put("/sys/smscode", "anon");//发送短信验证码
+        filterChainDefinitionMap.put("/sys/smsCode", "anon");//发送短信验证码
         filterChainDefinitionMap.put("/sys/user/checkOnlyUser", "anon");//校验用户是否存在
         filterChainDefinitionMap.put("/sys/user/register", "anon");//用户注册
         filterChainDefinitionMap.put("/sys/user/querySysUser", "anon");//根据手机号获取用户信息

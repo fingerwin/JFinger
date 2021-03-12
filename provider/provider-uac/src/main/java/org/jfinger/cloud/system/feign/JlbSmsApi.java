@@ -1,4 +1,4 @@
-package org.jeecg.modules.jlb.feign;
+package org.jfinger.cloud.system.feign;
 
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -17,7 +17,7 @@ import java.util.Map;
  */
 @Component
 @FeignClient(name = "smsc", url = "http://smsc.96871.com.cn/smsc")
-public interface SmsApi {
+public interface JlbSmsApi {
 
     @PostMapping(value = "/remoting/send", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     JSONObject sendSms(@RequestBody Map<String, ?> formParams);

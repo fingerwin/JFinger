@@ -533,10 +533,10 @@ public class SysUserController {
      */
     @PostMapping("/register")
     public Result<JSONObject> userRegister(@RequestBody JSONObject json, SysUser user) {
+        String smscode = json.getString("smsCode");
         String phone = json.getString("phone");
-        String smscode = json.getString("smscode");
-        Object code = redisUtil.get(phone);
-        String username = json.getString("username");
+        Object code = redisUtil.get(CommonConstant.PREFIX_SMS_REGISTER + phone);
+        String username = json.getString("userName");
         //未设置用户名，则用手机号作为用户名
         if (StringUtils.isEmpty(username)) {
             username = phone;
@@ -544,7 +544,7 @@ public class SysUserController {
         //未设置密码，则随机生成一个密码
         String password = json.getString("password");
         if (StringUtils.isEmpty(password)) {
-            password = RandomUtil.randomString(8);
+            password = EncryptUtils.createRandom(8);
         }
         String email = json.getString("email");
         if (sysUserService.getUserByName(username) != null) {

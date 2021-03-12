@@ -7,18 +7,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @Description 日志类型
+ * @Description 短信模式
  * @Author finger
  * @Date 2020/12/23 0023
  * @Version 1.0
  */
-public enum LogType {
+public enum SmsMode {
 
-    OPERATION(0, "操作日志"),
-    LOGIN(1, "登录日志"),
-    JOB(2, "定时任务");
+    SMS_CODE(0, "短信验证码"),
+    SMS_LOGIN(1, "短信登录"),
+    SMS_REGISTER(2, "短信注册");
 
-    private static final Map<Integer, LogType> mappings = new HashMap(16);
+    private static final Map<Integer, SmsMode> mappings = new HashMap(8);
 
     @Getter
     private Integer code;
@@ -26,7 +26,7 @@ public enum LogType {
     @Getter
     private String content;
 
-    LogType(Integer code, String content) {
+    SmsMode(Integer code, String content) {
         this.code = code;
         this.content = content;
     }
@@ -38,7 +38,7 @@ public enum LogType {
      * @return
      */
     public static String getContentByCode(Integer code) {
-        for (LogType instance : LogType.values()) {
+        for (SmsMode instance : SmsMode.values()) {
             if (instance.code.equals(code)) {
                 return instance.getContent();
             }
@@ -47,7 +47,7 @@ public enum LogType {
     }
 
     @Nullable
-    public static LogType resolve(@Nullable Integer code) {
+    public static SmsMode resolve(@Nullable Integer code) {
         return code != null ? mappings.get(code) : null;
     }
 
@@ -56,12 +56,12 @@ public enum LogType {
     }
 
     static {
-        LogType[] all = values();
+        SmsMode[] all = values();
         int len = all.length;
 
         for (int i = 0; i < len; ++i) {
-            LogType type = all[i];
-            mappings.put(type.getCode(), type);
+            SmsMode mode = all[i];
+            mappings.put(mode.getCode(), mode);
         }
     }
 }

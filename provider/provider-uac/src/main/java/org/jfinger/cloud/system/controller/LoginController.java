@@ -15,6 +15,8 @@ import org.jfinger.cloud.entity.data.SysUser;
 import org.jfinger.cloud.entity.model.SysLoginModel;
 import org.jfinger.cloud.entity.vo.LoginUser;
 import org.jfinger.cloud.enumerate.LogType;
+import org.jfinger.cloud.enumerate.SmsMode;
+import org.jfinger.cloud.system.factory.SmsFactory;
 import org.jfinger.cloud.system.service.ISysDepartService;
 import org.jfinger.cloud.system.service.ISysDictService;
 import org.jfinger.cloud.system.service.ISysLogService;
@@ -57,6 +59,9 @@ public class LoginController {
     @Autowired
     private ISysDictService sysDictService;
 
+    @Autowired
+    private SmsFactory smsFactory;
+
     @ApiOperation("登录接口")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Result<?> login(@RequestBody SysLoginModel sysLoginModel) {
@@ -94,10 +99,86 @@ public class LoginController {
         return result;
     }
 
-    @PostMapping(value = "/smsLogin")
-    @ApiOperation("短信登录接口")
-    public Result<?> sms(@RequestBody JSONObject jsonObject) {
-        return Result.success();
+    @PostMapping(value = "/smsCode")
+    @ApiOperation("短信接口")
+    public Result<?> sms(@RequestBody JSONObject json) {
+        String mobile = json.get("mobile").toString();
+        //手机号模式
+        SmsMode mode = null;
+        try {
+            mode = SmsMode.resolve(json.getInteger("mode"));
+        } catch (Exception e) {
+        }
+        if (mode == null)
+            mode = SmsMode.SMS_CODE;
+        if (StringUtils.isEmpty(mobile)) {
+            return Result.fail("手机号不允许为空！");
+        }
+        Object object = redisUtils.get(mobile);
+        if (object != null) {
+            return Result.success("验证码10分钟内，仍然有效！");
+        }
+        //随机数
+        String captcha = EncryptUtils.createRandom(true, 6);
+        JSONObject obj = new JSONObject();
+        obj.put("code", captcha);
+        String prefix = null;
+        switch (mode) {
+            case SMS_CODE://短信验证码
+                prefix = CommonConstant.PREFIX_SMS_CODE;
+                break;
+            case SMS_LOGIN://短信登录
+                SysUser loginUser = sysUserService.getUserByPhone(mobile);
+                Result r = sysUserService.checkUserIsEffective(loginUser);
+                if (!r.isSuccess()) {
+                    return r;
+                }
+                prefix = CommonConstant.PREFIX_SMS_LOGIN;
+                break;
+            case SMS_REGISTER://短信注册
+                SysUser sysUser = sysUserService.getUserByPhone(mobile);
+                if (sysUser != null) {
+                    sysLogService.addLog("手机号已经注册，请直接登录！", LogType.LOGIN, null);
+                    return Result.fail("手机号已经注册，请直接登录！");
+                }
+                prefix = CommonConstant.PREFIX_SMS_REGISTER;
+                break;
+        }
+        String content = smsFactory.getProvider().buildCodeSms(null, captcha);
+        Result result = smsFactory.getProvider().sendSms(mobile, content);
+        if (result.isSuccess()) {
+            redisUtils.set(prefix + mobile, captcha, 600);
+            return Result.success("验证码发送成功！");
+        } else
+            return Result.fail("验证码发送失败！");
+    }
+
+    /**
+     * 手机号登录接口
+     *
+     * @param json
+     * @return
+     */
+    @ApiOperation("手机号登录接口,暂不使用")
+    @PostMapping("/smsLogin")
+    public Result<JSONObject> phoneLogin(@RequestBody JSONObject json) {
+        String phone = json.getString("mobile");
+        //校验用户有效性
+        SysUser sysUser = sysUserService.getUserByPhone(phone);
+        Result result = sysUserService.checkUserIsEffective(sysUser);
+        if (!result.isSuccess()) {
+            return result;
+        }
+        String captcha = json.getString("captcha");
+        Object code = redisUtils.get(CommonConstant.PREFIX_SMS_LOGIN + phone);
+        if (!captcha.equals(code)) {
+            return Result.fail("手机验证码错误");
+        }
+        //用户信息
+        userInfo(sysUser, result);
+        //添加日志
+        sysLogService.addLog("用户名: " + sysUser.getUserName() + ",登录成功！", LogType.LOGIN, null);
+        return result;
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
@@ -111,8 +192,8 @@ public class LoginController {
         String username = JwtUtils.getUsername(token);
         LoginUser sysUser = sysUserService.getLoginUserByName(username);
         if (sysUser != null) {
-            sysLogService.addLog("用户名: " + sysUser.getRealName() + ",退出成功！", LogType.LOGIN, null);
-            log.info(" 用户名:  " + sysUser.getRealName() + ",退出成功！ ");
+            sysLogService.addLog("用户名: " + sysUser.getUserName() + ",退出成功！", LogType.LOGIN, null);
+            log.info(" 用户名:  " + sysUser.getUserName() + ",退出成功！ ");
             //清空用户登录Token缓存
             redisUtils.del(CommonConstant.PREFIX_USER_TOKEN + token);
             //清空用户登录Shiro权限缓存
